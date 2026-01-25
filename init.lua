@@ -307,7 +307,7 @@ require('lazy').setup({
       delay = 0,
       icons = {
         -- set icon mappings to true if you have a Nerd Font
-        mappings = vim.g.have_nerd_font,
+        mappings = true,
         -- If you are using a Nerd Font: set icons.keys to an empty table which will use the
         -- default which-key.nvim defined Nerd Font icons, otherwise define a string table
         keys = vim.g.have_nerd_font and {} or {
@@ -599,6 +599,20 @@ require('lazy').setup({
               callback = vim.lsp.buf.document_highlight,
             })
 
+            -- Rust settings
+            if client and client.name == 'rust_analyzer' then
+              -- Format on save for Rust
+              if client.server_capabilities.documentFormattingProvider then
+                local grp = vim.api.nvim_create_augroup('RustFormat', { clear = false })
+                vim.api.nvim_create_autocmd('BufWritePre', {
+                  group = grp,
+                  buffer = event.buf,
+                  callback = function()
+                    vim.lsp.buf.format { bufnr = event.buf }
+                  end,
+                })
+              end
+            end
             vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
               buffer = event.buf,
               group = highlight_augroup,
@@ -674,7 +688,31 @@ require('lazy').setup({
         -- clangd = {},
         -- gopls = {},
         -- pyright = {},
-        -- rust_analyzer = {},
+        rust_analyzer = {
+          settings = {
+            ['rust-analyzer'] = {
+              cargo = {
+                features = 'all',
+              },
+              checkOnSave = {
+                enable = true,
+              },
+              check = {
+                command = 'clippy',
+              },
+              imports = {
+                group = {
+                  enable = false,
+                },
+              },
+              completion = {
+                postfix = {
+                  enable = false,
+                },
+              },
+            },
+          },
+        },
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
