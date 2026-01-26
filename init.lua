@@ -702,7 +702,7 @@ require('lazy').setup({
               },
               imports = {
                 group = {
-                  enable = false,
+                  enable = true,
                 },
               },
               completion = {
