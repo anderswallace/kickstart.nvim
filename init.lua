@@ -993,15 +993,13 @@ require('lazy').setup({
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
       require('lualine').setup {
-        options = {
-          theme = 'auto',
-          icons_enabled = true,
-          sections = {
-            lualine_a = { 'mode' },
-            lualine_b = { 'branch', 'diff', 'diagnostics' },
-            lualine_c = {
+        sections = {
+          lualine_a = { 'mode' },
+          lualine_b = { 'branch', 'diff', 'diagnostics' },
+          lualine_c = {
+            {
               'filename',
-              path = 1, -- Show relative path
+              path = 3, -- Show full path and shorten $HOME to '~'
               show_modified_status = true,
               symbols = {
                 modified = '[+]',
@@ -1010,10 +1008,14 @@ require('lazy').setup({
                 newfile = '[New]',
               },
             },
-            lualine_x = { 'encoding', 'fileformat', 'filetype' },
-            lualine_y = { 'progress' },
-            lualine_z = { 'location' },
           },
+          lualine_x = { 'encoding', 'filetype' },
+          lualine_y = { 'progress' },
+          lualine_z = { 'location' },
+        },
+        options = {
+          theme = 'auto',
+          icons_enabled = true,
         },
       }
     end,
