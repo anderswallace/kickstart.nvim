@@ -366,6 +366,48 @@ require('lazy').setup({
   --
   -- Use the `dependencies` key to specify the dependencies of a particular plugin
 
+  -- Neotree (file explorer)
+  {
+    'nvim-neo-tree/neo-tree.nvim',
+    branch = 'v3.x',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'MunifTanjim/nui.nvim',
+      'nvim-tree/nvim-web-devicons', -- optional, but recommended
+    },
+    lazy = false, -- neo-tree will lazily load itself
+
+    config = function()
+      require('neo-tree').setup {
+        event_handlers = {
+
+          {
+            event = 'file_open_requested',
+            handler = function()
+              -- auto close
+              -- vim.cmd("Neotree close")
+              -- OR
+              require('neo-tree.command').execute { action = 'close' }
+            end,
+          },
+        },
+      }
+    end,
+    keys = {
+      {
+        '<leader>r',
+        function()
+          require('neo-tree.command').execute {
+            toggle = true,
+            source = 'filesystem',
+            position = 'left',
+          }
+        end,
+        desc = 'Toggle Neot[R]ee',
+      },
+    },
+  },
+
   { -- Fuzzy Finder (files, lsp, etc)
     'nvim-telescope/telescope.nvim',
     event = 'VimEnter',
