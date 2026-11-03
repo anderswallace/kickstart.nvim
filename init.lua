@@ -855,10 +855,11 @@ require('lazy').setup({
         end
       end,
       formatters_by_ft = {
+        json = { 'prettierd', 'prettier', 'jq', stop_after_first = true },
         lua = { 'stylua' },
-        rust = { 'rustfmt'},
+        rust = { 'rustfmt' },
         typescript = { 'prettierd', 'prettier', stop_after_first = true },
-        typescriptreact = 'prettierd', 'prettier', stop_after_first = true },
+        typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
